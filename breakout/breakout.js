@@ -88,7 +88,7 @@ function Score() {
 
   this.show = function() {
     ctx.font = '16px serif';
-    ctx.fillText('SCORE: ' + this.score, canvas.width - 80, 25);
+    ctx.fillText('SCORE: ' + this.score, canvas.width - 90, 25);
   }
 }
 
