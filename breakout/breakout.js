@@ -62,6 +62,11 @@ function clear() {
 }
 
 function endGame() {
+  blocks.map(block => {
+    block.show();
+    block.update();
+  });
+  
   window.cancelAnimationFrame(drow);
 
   alert('Game over\nScore is ' + score.score + '\nEnter F5 to restart');
