@@ -48,7 +48,7 @@ function drow() {
     block.update();
   });
 
-  if(isGameEnd) {
+  if(isGameEnd || blocks.length == 0) {
     endGame();
   } else { 
     window.requestAnimationFrame(drow);
