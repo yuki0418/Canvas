@@ -154,8 +154,8 @@ function Bar() {
 
   this.show = function() {
     ctx.beginPath();
-    const dynamicWith = this.width - (this.width / blocks.length * deletedBlocks)
-    ctx.fillRect(this.x, this.y, dynamicWith, this.height);
+    this.width = 100 - (this.width / blocks.length * deletedBlocks) + 30;
+    ctx.fillRect(this.x, this.y, this.width, this.height);
     ctx.fillStyle = 'white';
     ctx.closePath();
   }
