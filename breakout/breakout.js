@@ -110,6 +110,7 @@ function Ball() {
   this.update = function() {
     this.hitWall();
     this.hitBar();
+    this.velocityX += this.velocityX * 0.005;
     this.x += this.speed * this.velocityX;
     this.y += this.speed * this.velocityY;
   }
