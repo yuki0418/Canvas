@@ -1,5 +1,5 @@
 # Breakout Game
-![Image of Game](/game-image.png)
+![Image of Game](./game-image.png)
 
 ## Rule
 1. Remove all blocks by hitting a ball
