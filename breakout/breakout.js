@@ -66,8 +66,8 @@ function endGame() {
     block.show();
     block.update();
   });
-  
-  window.cancelAnimationFrame(drow);
+
+  // window.cancelAnimationFrame(drow);
 
   alert('Game over\nScore is ' + score.score + '\nEnter F5 to restart');
 };
