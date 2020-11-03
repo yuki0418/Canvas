@@ -110,7 +110,6 @@ function Ball() {
   this.update = function() {
     this.hitWall();
     this.hitBar();
-    this.velocityX += this.velocityX * 0.005;
     this.x += this.speed * this.velocityX;
     this.y += this.speed * this.velocityY;
   }
@@ -146,7 +145,7 @@ function Ball() {
 }
 
 function Bar() {
-  this.width = 50;
+  this.width = 100;
   this.height = 10;
   this.x = (canvas.width / 2) - (this.width / 2);
   this.y = canvas.height - 50;
@@ -155,7 +154,8 @@ function Bar() {
 
   this.show = function() {
     ctx.beginPath();
-    ctx.fillRect(this.x, this.y, this.width, this.height);
+    const dynamicWith = this.width - (this.width / blocks.length * deletedBlocks)
+    ctx.fillRect(this.x, this.y, dynamicWith, this.height);
     ctx.fillStyle = 'white';
     ctx.closePath();
   }
