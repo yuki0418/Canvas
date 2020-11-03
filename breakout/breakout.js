@@ -3,6 +3,7 @@ let ctx = canvas.getContext('2d');
 let ball;
 let bar;
 let blocks = [];
+let deletedBlocks = 0;
 let score;
 let isGameEnd = false;
 const numBlockX = 10;
@@ -48,7 +49,7 @@ function drow() {
     block.update();
   });
 
-  if(isGameEnd || blocks.length == 0) {
+  if(isGameEnd || blocks.length == deletedBlocks) {
     endGame();
   } else { 
     window.requestAnimationFrame(drow);
@@ -216,6 +217,7 @@ function Block(x, y) {
       this.removed = true;
       this.clear();
       ball.hitBlock();
+      ++deletedBlocks;
       score.addScore();
     }
   }
