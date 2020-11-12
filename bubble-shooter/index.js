@@ -169,7 +169,7 @@ function drawStartScreen() {
   ctx.textAlign = 'center';
   ctx.fillText('BUBBLE SHOOTER', canvas.width / 2, canvas.height / 2);
   ctx.font = '16px Arial';
-  ctx.fillText('Click to start', canvas.width / 2, canvas.height / 2 + 50);
+  ctx.fillText('SPACE to start', canvas.width / 2, canvas.height / 2 + 50);
   ctx.fillText('Left Click to shoot', canvas.width / 2, canvas.height / 2 + 100);
   ctx.restore();
 }
@@ -185,13 +185,13 @@ function drawEndGame() {
   ctx.font = '24px Arial';
   ctx.fillText('SCORE: ' + score, canvas.width / 2, canvas.height / 2);
   ctx.font = '16px Arial';
-  ctx.fillText('Click to restart', canvas.width / 2, canvas.height / 2 + 50);
+  ctx.fillText('SPACE to restart', canvas.width / 2, canvas.height / 2 + 50);
   ctx.restore();
 };
 
 function setEventsForStartScreen() {
   removeEventListeners();
-  canvas.addEventListener('click', clickHanderStart, true);
+  window.addEventListener('keydown', handerStart, true);
 }
 
 /**
@@ -199,14 +199,16 @@ function setEventsForStartScreen() {
  */
 function setEventsForEndGame() {
   removeEventListeners();
-  canvas.addEventListener('click', clickHanderReset, true);
+  window.addEventListener('keydown', handerReset, true);
 }
 
 /**
  * Event listner for start screen
  */
-function clickHanderStart(event) {
-  start();
+function handerStart(event) {
+  if(event.key === ' ') {
+    start();
+  }
 }
 
 /**
@@ -220,18 +222,20 @@ function clickHanderShoot(event) {
   bullets.push(new Bullet(ctx, clickedPosi));
 }
 
-function clickHanderReset(event) {
-  adsElm.setAttribute("style", "display: none");
-  start();
+function handerReset(event) {
+  if(event.key === ' ') {
+    adsElm.setAttribute("style", "display: none");
+    start();
+  }
 }
 
 /**
  * Remove event handlers
  */
 function removeEventListeners() {
-  canvas.removeEventListener('click', clickHanderStart, true);
+  window.removeEventListener('keydown', handerStart, true);
   canvas.removeEventListener('click', clickHanderShoot, true);
-  canvas.removeEventListener('click', clickHanderReset, true);
+  window.removeEventListener('keydown', handerReset, true);
 }
 
 setup();
