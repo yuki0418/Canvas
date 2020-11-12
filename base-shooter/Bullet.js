@@ -1,15 +1,18 @@
 class Bullet {
   x;
   y;
-  deg;
+  r;
+  velocityX;
+  velocityY;
   canvas;
   ctx;
   speed;
   clickedPosi;
 
-  constructor(x, y, ctx, clickedPosi) {
-    this.x = x || 0;
-    this.y = y || 0;
+  constructor(ctx, clickedPosi) {
+    this.x = ctx.canvas.width / 2;
+    this.y = ctx.canvas.height / 2;
+    this.r = 3;
     this.ctx = ctx;
     this.clickedPosi = clickedPosi;
     this.speed = 3;
@@ -21,37 +24,43 @@ class Bullet {
       height: this.ctx.canvas.height
     };
 
-    this.setDeg();
+    this.setVelocities();
   };
 
   show() {
     this.ctx.save();
-    this.ctx.translate(this.canvas.width / 2, this.canvas.height / 2);
-    this.ctx.rotate(this.deg);
     this.ctx.fillStyle = 'white';
     this.ctx.beginPath();
-    this.ctx.arc(this.x, this.y, 3, 0, Math.PI * 2);
+    this.ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
     this.ctx.fill();
     this.ctx.closePath();
-    // this.ctx.fillRect(this.x, this.y, 10, 10);
     this.ctx.restore();
   }
 
   update() {
-    this.x = this.x + this.speed;
-    this.y = this.y + this.speed;
+    this.x += this.velocityX * this.speed;
+    this.y += this.velocityY * this.speed;
   }
 
   setDeg() {
     let targetX = (this.clickedPosi.x - this.canvas.width / 2) - this.x;
     let targetY = (this.clickedPosi.y - this.canvas.height / 2) - this.y;
     this.deg = Math.atan2(targetY, targetX) - Math.PI / 4;
+
+  }
+  
+  setVelocities() {
+    let dx = this.clickedPosi.x - this.x;
+    let dy = this.clickedPosi.y - this.y;
+    let mag = Math.sqrt(dx * dx + dy * dy);
+    this.velocityX = dx / mag;
+    this.velocityY = dy / mag;
   }
 
   isOutofCanvas() {
     if(
-      this.x > this.canvas.width / 2 || this.x < -this.canvas.width / 2 ||
-      this.y > this.canvas.height / 2 || this.y < -this.canvas.height / 2
+      this.x > this.canvas.width || this.x < 0 ||
+      this.y > this.canvas.height || this.y < 0
     ) {
       return true;
     } else {
