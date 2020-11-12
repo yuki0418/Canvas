@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Base Shooter</title>
+</head>
+<script src="./Base.js"></script>
+<script src="./Bullet.js"></script>
+<script src="./Bubble.js"></script>
+<body>
+  <div class="container">
+    <canvas id="canvas"></canvas>
+    <div id="ads">
+      <p>Thank you for playing!!</p>
+      <p>Please hire <a href="https://www.linkedin.com/in/yuki-ishii-b92891190/" target="_blank">meeee</a></p>
+    </div>
+  </div>
+</body>
+<style>
+  body {
+    position: relative;
+    margin: unset;
+    box-sizing: border-box;
+  }
+
+  .container {
+    display: flex;
+    justify-content: center;
+  }
+  
+  canvas {
+    position: relative;
+    display: block;
+    margin: auto;
+  }
+
+  #ads {
+    display: none;
+    position: absolute;
+    z-index: 1;
+    bottom: 0;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    color: white;
+    text-align: center;
+    width: auto;
+    margin: auto;
+  }
+
+  #ads a,
+  #ads a:link,
+  #ads a:link:visited {
+    color: white;
+  }
+</style>
+<script src="./index.js"></script>
+</html>

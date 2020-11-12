@@ -43,8 +43,8 @@ class Bubble {
   }
 
   update() {
-    this.x += this.velocityX * (this.maxHealth - this.health) * this.speed;
-    this.y += this.velocityY * (this.maxHealth - this.health) * this.speed;
+    this.x += this.velocityX * (this.maxHealth - this.health + 0.5) * this.speed;
+    this.y += this.velocityY * (this.maxHealth - this.health + 0.5) * this.speed;
   }
 
   setVelocities() {
