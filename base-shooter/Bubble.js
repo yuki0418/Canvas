@@ -7,16 +7,26 @@ class Bubble {
   velocityY;
   speed;
   health; // Hit point
+  maxHealth;
   isHitted;
   isKilled;
+
+  colors = [
+    '#EA6B54',
+    '#EBB160',
+    '#F3D788',
+    '#97A87D',
+    '#B3ACA0',
+  ]
 
   constructor(x, y, ctx) {
     this.x = x;
     this.y = y;
-    this.speed = (Math.random() * 0.003) + 0.001;
+    this.speed = 0.0007;
     this.ctx = ctx;
     this.isHitted = false;
     this.isKilled = false;
+    this.maxHealth = 5;
     this.setVelocities();
     this.setHealth();
     this.setRadius();
@@ -25,7 +35,7 @@ class Bubble {
   show() {
     this.ctx.save();
     this.ctx.beginPath();
-    this.ctx.fillStyle = 'white';
+    this.ctx.fillStyle = this.colors[this.health - 1] || 'white';
     this.ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
     this.ctx.fill();
     this.ctx.closePath();
@@ -33,8 +43,8 @@ class Bubble {
   }
 
   update() {
-    this.x += this.velocityX * this.speed;
-    this.y += this.velocityY * this.speed;
+    this.x += this.velocityX * (this.maxHealth - this.health) * this.speed;
+    this.y += this.velocityY * (this.maxHealth - this.health) * this.speed;
   }
 
   setVelocities() {
@@ -43,7 +53,7 @@ class Bubble {
   }
 
   setHealth() {
-    const randomHelth = Math.floor(Math.random() * 5);
+    const randomHelth = Math.floor(Math.random() * this.maxHealth) + 1;
     this.health = randomHelth;
   }
 

@@ -41,12 +41,6 @@ class Bullet {
     this.x += this.velocityX * this.speed;
     this.y += this.velocityY * this.speed;
   }
-
-  // setDeg() {
-  //   let targetX = (this.clickedPosi.x - this.canvas.width / 2) - this.x;
-  //   let targetY = (this.clickedPosi.y - this.canvas.height / 2) - this.y;
-  //   this.deg = Math.atan2(targetY, targetX) - Math.PI / 4;
-  // }
   
   setVelocities() {
     let dx = this.clickedPosi.x - this.x;
