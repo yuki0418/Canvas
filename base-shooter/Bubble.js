@@ -61,7 +61,7 @@ class Bubble {
     this.r = 15 + this.health * 5;
   }
 
-  isBulleHit(bullet) {
+  isBulletHit(bullet) {
     // Get distance
     let distance_x = this.x - bullet.x;
     let distance_y = this.y - bullet.y;
