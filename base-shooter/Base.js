@@ -5,9 +5,9 @@ class Base {
   ctx;
 
   constructor(x, y, deg, ctx) {
-    this.x = x || 0;
-    this.y = y || 0;
-    this.deg = deg || 0;
+    this.x = x;
+    this.y = y;
+    this.deg = deg;
     this.ctx = ctx;
   };
 

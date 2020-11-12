@@ -7,12 +7,16 @@ class Bubble {
   velocityY;
   speed;
   health; // Hit point
+  isHitted;
+  isKilled;
 
   constructor(x, y, ctx) {
     this.x = x;
     this.y = y;
     this.speed = (Math.random() * 0.003) + 0.001;
     this.ctx = ctx;
+    this.isHitted = false;
+    this.isKilled = false;
     this.setVelocities();
     this.setHealth();
     this.setRadius();
@@ -52,6 +56,32 @@ class Bubble {
     let distance_x = this.x - bullet.x;
     let distance_y = this.y - bullet.y;
     let radii_sum = this.r + bullet.r;
+
+    if(distance_x * distance_x + distance_y * distance_y <= radii_sum * radii_sum) {
+      this.isHitted = true;
+      this.onDamage();
+      return true;
+    }
+    return false;
+  }
+
+  onDamage() {
+    if(this.isHitted && this.health > 0) {
+      this.health--;
+      this.isHitted = false;
+      this.setRadius();
+    }
+
+    if(this.health <= 0) {
+      this.isKilled = true;
+    }
+  }
+
+  // Pretend hit to the base
+  isCenter() {
+    let distance_x = this.x - this.ctx.canvas.width / 2;
+    let distance_y = this.y - this.ctx.canvas.height / 2;
+    let radii_sum = this.r + 10;
 
     if(distance_x * distance_x + distance_y * distance_y <= radii_sum * radii_sum) {
       return true;

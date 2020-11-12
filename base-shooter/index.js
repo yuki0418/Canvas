@@ -8,6 +8,7 @@ let mouse = {
 let base;
 let bullets = [];
 let bubbles = [];
+let isEnd = false;
 const numBubbles = 10;
 
 function setup() {
@@ -48,7 +49,9 @@ function draw() {
     bubbles[i].show();
   }
 
-  window.requestAnimationFrame(draw);
+  if(!isEnd) {
+    window.requestAnimationFrame(draw);
+  }
 }
 
 function clear() {
@@ -62,7 +65,11 @@ function clear() {
 
 function reset() {}
 
-function end() {}
+function end() {
+  console.log('end');
+  isEnd = true;
+  window.cancelAnimationFrame(draw);
+}
 
 function initAddEvents() {
   // Get Cliant location on Canvas
@@ -105,10 +112,17 @@ function addBubbles() {
 
 function detectBullets() {
   for(let i in bubbles) {
+    if(bubbles[i].isCenter()) {
+      // Hit to the base, end game
+      end();
+    }
+
     for(let i2 in bullets) {
       if(bubbles[i].isBulleHit(bullets[i2])) {
-        bubbles.splice(i, 1);
         bullets.splice(i2, 1);
+        if(bubbles[i].isKilled) {
+          bubbles.splice(i, 1);
+        }
       }
     }
   }
