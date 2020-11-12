@@ -118,7 +118,7 @@ function detectBullets() {
     }
 
     for(let i2 in bullets) {
-      if(bubbles[i].isBulleHit(bullets[i2])) {
+      if(bubbles[i].isBulletHit(bullets[i2])) {
         bullets.splice(i2, 1);
         if(bubbles[i].isKilled) {
           bubbles.splice(i, 1);
