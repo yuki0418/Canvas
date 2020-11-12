@@ -1,4 +1,4 @@
-export default class Base {
+class Bullet {
   x;
   y;
   deg;

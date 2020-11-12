@@ -1,6 +1,3 @@
-import Base from './Base.js';
-import Bullet from './Bullet.js';
-
 let canvas = document.getElementById('canvas');
 let ctx = canvas.getContext('2d');
 let canvasWidth = 500;
