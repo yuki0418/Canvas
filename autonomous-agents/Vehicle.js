@@ -1,4 +1,5 @@
 import PVector from '../PVector.js';
+import CustMath from '../CustMath.js';
 
 export default class Vehicle {
   constructor(ctx, x, y) {
@@ -24,6 +25,7 @@ export default class Vehicle {
     this.ctx.translate(this.location.x, this.location.y);
     this.ctx.rotate(theta);
     this.ctx.beginPath();
+    // this.ctx.arc(this.location.x, this.location.y, 5, 0, Math.PI*2);
     this.ctx.lineTo(0, 0);
     this.ctx.lineTo(-10, 20);
     this.ctx.lineTo(10, 20);
@@ -51,6 +53,27 @@ export default class Vehicle {
     let steer = PVector.sub(desired,this.velocity);
     steer.limit(this.maxForce);
 
+    this.applyForce(steer);
+  }
+
+  /**
+   * 
+   * @param {PVector} target 
+   */
+  arrive(target) {
+    let desired = PVector.sub(target, this.location);
+
+    let d = desired.mag();
+    desired.normalize();
+    if(d < 100) {
+      let m = CustMath.map_range(d, 0, 100, 0, this.maxSpeed);
+      desired.mult(m);
+    } else {
+      desired.mult(this.maxSpeed);
+    }
+
+    let steer = PVector.sub(desired, this.velocity)
+    steer.limit(this.maxForce);
     this.applyForce(steer);
   }
 

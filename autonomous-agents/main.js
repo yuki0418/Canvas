@@ -1,3 +1,4 @@
+// Next 6.5
 import PVector from '../PVector.js';
 import Vehicle from './Vehicle.js';
 
@@ -29,8 +30,9 @@ function clear() {
 function drow() {
   clear();
 
+  // vehicle.seek(mouse);
+  vehicle.arrive(mouse);
   vehicle.run();
-  vehicle.seek(mouse);
 
   window.requestAnimationFrame(drow);
 }
