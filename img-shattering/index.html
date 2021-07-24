@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Image Shattering</title>
+</head>
+
+<body>
+  <div id="container"></div>
+</body>
+
+<style>
+  body {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+  }
+
+  canvas {
+    vertical-align: bottom;
+    cursor: grab;
+    transition: transform .1s ease-in;
+    z-index: 1;
+  }
+  
+  canvas:hover {
+    z-index: 2;
+    transform: scale(1.1);
+    box-shadow: 0px 0px 5px 3px rgba(0, 0, 0, 0.3);
+  }
+  
+  #container {
+    width: 500px;
+    height: 350px;
+    background: #000;
+    position: relative;
+  }
+</style>
+
+<script>
+  class Fragment {
+    constructor(_canvas, _ctx, _position) {
+      this.canvas = _canvas;
+      this.ctx = _ctx;
+      this.isHold = false;
+      this.position = _position;
+      this.vel = {x: 1, y: 1};
+      this.speed = {x: 1, y: 1};
+      this.setStyle();
+
+      this.canvas.addEventListener('mouseenter', this.handleMouseEnter, false);
+      this.canvas.addEventListener('mouseout', this.handleMouseOut, false);
+    }
+    
+    setStyle = () => {
+      this.canvas.style.position = 'absolute';
+      this.canvas.style.left = this.position.x + 'px';
+      this.canvas.style.top = this.position.y + 'px';
+    }
+    
+    setPosition = (position) => {
+      this.position = position;
+      this.canvas.style.left = this.position.x + 'px';
+      this.canvas.style.top = this.position.y + 'px';
+    }
+    
+    move = (posi) => {
+      this.position.x += posi.x;
+      this.position.y += posi.y;
+      this.canvas.style.left = this.position.x + 'px';
+      this.canvas.style.top = this.position.y + 'px';
+    }
+    
+    handleMouseEnter = () => { hoveredFragment = this }
+    handleMouseOut = () => { hoveredFragment = null }
+  }
+
+  // Main thread
+  let img, container;
+  let fragments = [];
+  let selectedFragment = null;
+  let hoveredFragment = null;
+  let mouse = { x: 0, y: 0 };
+  let lastMousePosi = {x: 0, y: 0};
+  let H_NUM = 4; // Number of horizontal layers
+  let V_NUM = 4; // Number of vertical layers
+
+  const initSource = () => {
+    container = document.getElementById('container');
+
+    img = new Image();
+    img.src = './img.jpg';
+    img.onload = drawImage;
+
+    window.addEventListener('mousemove', handleMouseMove, false);
+    window.addEventListener('mousedown', handleMouseDown, false);
+    window.addEventListener('mouseup', handleMouseUp, false);
+  }
+
+  const drawImage = (e) => {
+    container.width = 500;
+    container.height = 350;
+    
+    createFragments();
+  }
+
+  const createFragments = () => {
+    let sWidth = container.width / H_NUM;
+    let sHeight = container.height / V_NUM;
+
+    for(let i=0; i<H_NUM; i++) {
+      for(let j=0; j<V_NUM; j++) {
+        // Initialize temporal elements
+        let tempCanvas = document.createElement('canvas');
+        let tempCtx = tempCanvas.getContext('2d');
+
+        tempCanvas.width = sWidth;
+        tempCanvas.height = sHeight;
+
+        let sx = j * ~~(img.width / H_NUM);
+        let sy = i * ~~(img.height / V_NUM);
+        
+        // drow image
+        tempCtx.drawImage(img,
+        sx, sy, img.width / H_NUM, img.height / V_NUM,
+        0, 0, sWidth, sHeight
+        );
+        let px = j * ~~(container.width / H_NUM);
+        let py = i * ~~(container.height / V_NUM);
+        let position = {x: px, y: py};
+        
+        let fragment = new Fragment(tempCanvas, tempCtx, position);
+        fragments.push(fragment)
+        container.appendChild(fragment.canvas);
+      }
+    }
+  }
+
+  handleMouseMove = (e) => {
+    mouse.x = e.clientX;
+    mouse.y = e.clientY;
+    if(!!selectedFragment) {
+      let moveDif = {
+        x: mouse.x - lastMousePosi.x,
+        y: mouse.y - lastMousePosi.y
+      };
+      lastMousePosi.x = mouse.x;
+      lastMousePosi.y = mouse.y;
+      selectedFragment.move(moveDif);
+    }
+  }
+  
+  handleMouseDown = (e) => {
+    lastMousePosi.x = mouse.x;
+    lastMousePosi.y = mouse.y;
+    selectedFragment = hoveredFragment;
+    if(!!selectedFragment) {
+      selectedFragment.isHold = true;
+    }
+  }
+  
+  handleMouseUp = (e) => {
+    if(!selectedFragment) return null;
+    selectedFragment.isHold = false;
+    selectedFragment = null;
+  }
+
+  initSource();
+</script>
+
+</html>
